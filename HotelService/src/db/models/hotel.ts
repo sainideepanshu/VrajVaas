@@ -40,7 +40,7 @@ Hotel.init({
         defaultValue: new Date(),
     },
     deletedAt: {
-        type: 'date',
+        type: "DATE",
         defaultValue: null,
     },
     rating: {
