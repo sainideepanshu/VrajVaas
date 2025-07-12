@@ -7,14 +7,22 @@ import (
 )
 
 type Config struct {
-	Addr string
+	Addr string // PORT
 }
 
 type Application struct {
 	Config Config
 }
 
-func (app *Application) Run() error {
+func NewConfig(addr string) Config {
+	return Config{Addr: addr}
+}
+
+func NewApplication(cfg Config) *Application {
+	return &Application{Config: cfg}
+}
+
+func (app *Application) Run() error { // it is the member function of Application struct
 
 	server := &http.Server{
 		Addr:         app.Config.Addr,
