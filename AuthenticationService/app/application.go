@@ -1,8 +1,12 @@
 package app
 
 import (
+	dbConfig "AuthenticationService/config/db"
 	config "AuthenticationService/config/env"
+	"AuthenticationService/controllers"
+	repo "AuthenticationService/db/repositories"
 	"AuthenticationService/router"
+	"AuthenticationService/services"
 	"fmt"
 	"net/http"
 	"time"
@@ -33,9 +37,21 @@ func NewApplication(cfg Config) *Application {
 
 func (app *Application) Run() error { // it is the member function of Application struct
 
+	db, err := dbConfig.SetupDB()
+
+	if err != nil {
+		fmt.Println("Error setting up database:", err)
+		return err
+	}
+
+	ur := repo.NewUserRepository(db)
+	us := services.NewUserService(ur)
+	uc := controllers.NewUserController(us)
+	uRouter := router.NewUserRouter(uc)
+
 	server := &http.Server{
 		Addr:         app.Config.Addr,
-		Handler:      router.SetupRouter(),              
+		Handler:      router.SetupRouter(uRouter),              
 		ReadTimeout:  10 * time.Second, // Set read timeout to 10 seconds
 		WriteTimeout: 10 * time.Second, // Set write timeout to 10 seconds
 	}
