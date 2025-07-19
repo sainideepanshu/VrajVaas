@@ -2,6 +2,7 @@ package app
 
 import (
 	config "AuthenticationService/config/env"
+	"AuthenticationService/router"
 	"fmt"
 	"net/http"
 	"time"
@@ -34,7 +35,7 @@ func (app *Application) Run() error { // it is the member function of Applicatio
 
 	server := &http.Server{
 		Addr:         app.Config.Addr,
-		Handler:      nil,              // TODO: Setup a chi router and put it here
+		Handler:      router.SetupRouter(),              
 		ReadTimeout:  10 * time.Second, // Set read timeout to 10 seconds
 		WriteTimeout: 10 * time.Second, // Set write timeout to 10 seconds
 	}
