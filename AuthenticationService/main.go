@@ -2,11 +2,14 @@ package main
 
 import (
 	"AuthenticationService/app"
+	config "AuthenticationService/config/env"
 )
 
 func main() {
 
-	cfg := app.NewConfig(":8080") // Set the port to 8080 or any other desired port
+	config.Load()
+
+	cfg := app.NewConfig()
 
 	app := app.NewApplication(cfg)
 

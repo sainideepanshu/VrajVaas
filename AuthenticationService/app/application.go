@@ -1,6 +1,7 @@
 package app
 
 import (
+	config "AuthenticationService/config/env"
 	"fmt"
 	"net/http"
 	"time"
@@ -14,10 +15,17 @@ type Application struct {
 	Config Config
 }
 
-func NewConfig(addr string) Config {
-	return Config{Addr: addr}
+// Constructor for Config
+func NewConfig() Config {
+
+	port := config.GetString("PORT", ":8080")
+
+	return Config{
+		Addr: port,
+	}
 }
 
+// Constructor for Application
 func NewApplication(cfg Config) *Application {
 	return &Application{Config: cfg}
 }
