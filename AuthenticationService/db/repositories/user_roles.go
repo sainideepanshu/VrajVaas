@@ -145,7 +145,7 @@ func (u *UserRoleRepositoryImpl) HasAllRoles(userId int64, roleNames []string) (
 		WHERE ur.user_id = ? AND r.name IN (?)
 		GROUP BY ur.user_id`
 
-	roleNamesStr := strings.Join(roleNames, ",")
+	roleNamesStr := strings.Join(roleNames, ",")            // Create a comma-separated string of role names
 
 	row := u.db.QueryRow(query, len(roleNames), userId, roleNamesStr)
 
